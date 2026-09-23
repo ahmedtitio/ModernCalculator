@@ -32,21 +32,19 @@ workflows:
           ls -la gradle/wrapper/
           ls -la gradlew
           
-      - name: بناء APK و AAB
+      - name: بناء APK فقط
         script: |
           #!/usr/bin/env bash
           echo "بدء عملية البناء..."
-          ./gradlew clean assembleRelease bundleRelease --stacktrace
+          ./gradlew clean assembleRelease --stacktrace
           
     artifacts:
-      - ModernCalculator/app/build/outputs/**/*.apk
-      - ModernCalculator/app/build/outputs/**/*.aab
-      - ModernCalculator/app/build/outputs/**/mapping.txt
+      - app/build/outputs/**/*.apk
     
     publishing:
       email:
         recipients:
-          - user@example.com
+          - ahmedtitio@gmail.com
         notify:
           success: true
           failure: true
