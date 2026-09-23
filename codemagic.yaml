@@ -1,7 +1,7 @@
 workflows:
   android-workflow:
     name: بناء تطبيق آلة حديثة
-    max_build_duration: 60
+    max_build_duration: 30
     environment:
       vars:
         PACKAGE_NAME: com.example.moderncalculator
@@ -15,32 +15,26 @@ workflows:
           include: true
           source: true
     scripts:
-      - name: تثبيت Gradle Wrapper
+      - name: إعداد Gradle Wrapper
         script: |
-          # تحميل ملف gradle-wrapper.jar مباشرة إذا كان مفقوداً
-          if [ ! -f "gradle/wrapper/gradle-wrapper.jar" ]; then
-            echo "تحميل Gradle Wrapper..."
-            mkdir -p gradle/wrapper
-            curl -L "https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar" --output gradle/wrapper/gradle-wrapper.jar
-          fi
-
-          # إنشاء سكريبت gradlew إذا كان مفقوداً
-          if [ ! -f "gradlew" ]; then
-            echo "إنشاء سكريبت gradlew..."
-            cat > gradlew << 'EOF'
-#!/bin/sh
-exec java -jar "$(dirname "$0")/gradle/wrapper/gradle-wrapper.jar" "$@"
-EOF
+          #!/usr/bin/env bash
+          chmod +x ./gradlew || echo "gradlew not found, creating..."
+          if [ ! -f "./gradlew" ]; then
+            wget https://raw.githubusercontent.com/gradle/gradle/master/gradlew -O gradlew
             chmod +x gradlew
           fi
-      
+          if [ ! -d "gradle/wrapper" ]; then
+            mkdir -p gradle/wrapper
+          fi
+          if [ ! -f "gradle/wrapper/gradle-wrapper.jar" ]; then
+            wget https://github.com/gradle/gradle/raw/v7.4.2/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
+          fi
       - name: بناء APK و AAB
         script: |
-          echo "بدء عملية البناء..."
+          #!/usr/bin/env bash
           ./gradlew clean
           ./gradlew assembleRelease
           ./gradlew bundleRelease
-          
     artifacts:
       - $MODULE_NAME/build/outputs/**/*.apk
       - $MODULE_NAME/build/outputs/**/*.aab
