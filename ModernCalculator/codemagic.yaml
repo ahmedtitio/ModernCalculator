@@ -1,0 +1,28 @@
+workflows:
+  android-workflow:
+    name: بناء تطبيق آلة حديثة
+    max_build_duration: 30
+    environment:
+      vars:
+        PACKAGE_NAME: com.example.moderncalculator
+        MODULE_NAME: app
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+    scripts:
+      - name: إعداد Gradle
+        script: |
+          chmod +x ./gradlew
+      - name: بناء APK و AAB
+        script: |
+          ./gradlew clean
+          ./gradlew assembleRelease
+          ./gradlew bundleRelease
+    artifacts:
+      - $MODULE_NAME/build/outputs/**/*.apk
+      - $MODULE_NAME/build/outputs/**/*.aab

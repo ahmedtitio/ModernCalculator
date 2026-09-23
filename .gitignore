@@ -1,0 +1,33 @@
+```
+# Build artifacts
+build/
+.gradle/
+target/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Gradle
+gradle/
+.gradle/
+!gradlew
+```
