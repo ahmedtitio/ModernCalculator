@@ -1,7 +1,7 @@
 workflows:
   android-workflow:
     name: بناء تطبيق آلة حديثة
-    max_build_duration: 30
+    max_build_duration: 60
     environment:
       vars:
         PACKAGE_NAME: com.example.moderncalculator
@@ -9,28 +9,46 @@ workflows:
     triggering:
       events:
         - push
+        - tag
       branch_patterns:
         - pattern: 'main'
           include: true
           source: true
     scripts:
-      - name: تثبيت وتجهيز Gradle Wrapper
+      - name: تثبيت Gradle Wrapper
         script: |
-          # إذا لم يوجد ملف gradlew، نقوم بتنزيله وتوليده
-          if [ ! -f ./gradlew ]; then
+          # تحميل ملف gradle-wrapper.jar مباشرة إذا كان مفقوداً
+          if [ ! -f "gradle/wrapper/gradle-wrapper.jar" ]; then
             echo "تحميل Gradle Wrapper..."
-            wget -q https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
-            wget -q https://raw.githubusercontent.com/gradle/gradle/master/gradlew -O gradlew
+            mkdir -p gradle/wrapper
+            curl -L "https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar" --output gradle/wrapper/gradle-wrapper.jar
+          fi
+
+          # إنشاء سكريبت gradlew إذا كان مفقوداً
+          if [ ! -f "gradlew" ]; then
+            echo "إنشاء سكريبت gradlew..."
+            cat > gradlew << 'EOF'
+#!/bin/sh
+exec java -jar "$(dirname "$0")/gradle/wrapper/gradle-wrapper.jar" "$@"
+EOF
             chmod +x gradlew
           fi
-          chmod +x ./gradlew
-          
+      
       - name: بناء APK و AAB
         script: |
+          echo "بدء عملية البناء..."
           ./gradlew clean
           ./gradlew assembleRelease
           ./gradlew bundleRelease
+          
     artifacts:
       - $MODULE_NAME/build/outputs/**/*.apk
       - $MODULE_NAME/build/outputs/**/*.aab
-      - $MODULE_NAME/build/outputs/**/*.txt
+      - $MODULE_NAME/build/outputs/**/mapping.txt
+    publishing:
+      email:
+        recipients:
+          - user@example.com
+        notify:
+          success: true
+          failure: true
