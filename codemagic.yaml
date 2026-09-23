@@ -1,15 +1,14 @@
 workflows:
-  android-workflow:
-    name: بناء لعبة قفزة النجوم
+  starjump-apk:
+    name: بناء لعبة قفزة النجوم - APK فقط
+    instance_type: mac_mini_m2
     max_build_duration: 30
-    working_directory: StarJump
     environment:
       vars:
         MODULE_NAME: app
     triggering:
       events:
         - push
-        - tag
       branch_patterns:
         - pattern: 'main'
           include: true
@@ -18,21 +17,35 @@ workflows:
       - name: إعداد Gradle Wrapper
         script: |
           #!/usr/bin/env bash
-          echo "جاري التحقق من Gradle Wrapper..."
+          set -e
+          cd StarJump
           chmod +x ./gradlew
           ls -la gradle/wrapper/
           ls -la gradlew
 
-      - name: بناء APK فقط
+      - name: بناء APK
         script: |
           #!/usr/bin/env bash
+          set -e
+          cd StarJump
           echo "بدء عملية البناء..."
           ./gradlew clean assembleRelease --stacktrace
-          echo "ملفات الإخراج:"
-          find app/build/outputs -name "*.apk" || true
+          echo "===== ملفات الإخراج ====="
+          find . -name "*.apk" -type f
+
+      - name: نسخ الـ APK لمجلد واضح
+        script: |
+          #!/usr/bin/env bash
+          mkdir -p $CM_BUILD_DIR/build-output
+          cp StarJump/app/build/outputs/apk/release/app-release.apk $CM_BUILD_DIR/build-output/StarJump-v1.0.apk || {
+            echo "بحث عن أي apk:"
+            find $CM_BUILD_DIR -name "*.apk" -exec cp {} $CM_BUILD_DIR/build-output/StarJump.apk \;
+          }
+          ls -la $CM_BUILD_DIR/build-output/
 
     artifacts:
-      - app/build/outputs/apk/release/*.apk
+      - build-output/*.apk
+      - StarJump/app/build/outputs/apk/release/*.apk
 
     publishing:
       email:
