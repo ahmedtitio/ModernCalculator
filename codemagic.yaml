@@ -4,7 +4,6 @@ workflows:
     max_build_duration: 30
     environment:
       vars:
-        PACKAGE_NAME: com.example.moderncalculator
         MODULE_NAME: app
     triggering:
       events:
@@ -15,30 +14,37 @@ workflows:
           include: true
           source: true
     scripts:
-      - name: إعداد Gradle Wrapper
+      - name: إصلاح وتوليد Gradle Wrapper
         script: |
           #!/usr/bin/env bash
-          chmod +x ./gradlew || echo "gradlew not found, creating..."
-          if [ ! -f "./gradlew" ]; then
-            wget https://raw.githubusercontent.com/gradle/gradle/master/gradlew -O gradlew
-            chmod +x gradlew
-          fi
-          if [ ! -d "gradle/wrapper" ]; then
-            mkdir -p gradle/wrapper
-          fi
-          if [ ! -f "gradle/wrapper/gradle-wrapper.jar" ]; then
-            wget https://github.com/gradle/gradle/raw/v7.4.2/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
-          fi
+          echo "جاري تنظيف ملفات Gradle التالفة..."
+          rm -rf gradle/wrapper/gradle-wrapper.jar
+          rm -f gradlew
+          
+          echo "جاري توليد Gradle Wrapper جديد..."
+          # استخدام gradle المثبت في النظام لتوليد الملفات الضرورية
+          gradle wrapper --gradle-version 8.0 --distribution-type bin
+          
+          echo "منح صلاحيات التنفيذ..."
+          chmod +x ./gradlew
+          
+          echo "التحقق من وجود الملفات..."
+          ls -la gradle/wrapper/
+          ls -la gradlew
+          
       - name: بناء APK و AAB
         script: |
           #!/usr/bin/env bash
+          echo "بدء عملية البناء..."
           ./gradlew clean
           ./gradlew assembleRelease
           ./gradlew bundleRelease
+          
     artifacts:
       - $MODULE_NAME/build/outputs/**/*.apk
       - $MODULE_NAME/build/outputs/**/*.aab
       - $MODULE_NAME/build/outputs/**/mapping.txt
+    
     publishing:
       email:
         recipients:
