@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.StarJump" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/gold</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/sky</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">#FF1A2151</item>
+    </style>
+</resources>

@@ -1,8 +1,8 @@
 workflows:
   android-workflow:
-    name: بناء تطبيق آلة حديثة
+    name: بناء لعبة قفزة النجوم
     max_build_duration: 30
-    working_directory: ModernCalculator
+    working_directory: StarJump
     environment:
       vars:
         MODULE_NAME: app
@@ -19,28 +19,21 @@ workflows:
         script: |
           #!/usr/bin/env bash
           echo "جاري التحقق من Gradle Wrapper..."
-          
-          if [ ! -f "./gradlew" ]; then
-            echo "جاري توليد Gradle Wrapper جديد..."
-            gradle wrapper --gradle-version 8.0 --distribution-type bin
-          fi
-          
-          echo "منح صلاحيات التنفيذ..."
           chmod +x ./gradlew
-          
-          echo "التحقق من وجود الملفات..."
           ls -la gradle/wrapper/
           ls -la gradlew
-          
+
       - name: بناء APK فقط
         script: |
           #!/usr/bin/env bash
           echo "بدء عملية البناء..."
           ./gradlew clean assembleRelease --stacktrace
-          
+          echo "ملفات الإخراج:"
+          find app/build/outputs -name "*.apk" || true
+
     artifacts:
-      - app/build/outputs/**/*.apk
-    
+      - app/build/outputs/apk/release/*.apk
+
     publishing:
       email:
         recipients:

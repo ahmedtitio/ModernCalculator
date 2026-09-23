@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">قفزة النجوم</string>
+    <string name="title">⭐ قفزة النجوم 🚀</string>
+    <string name="play">ابدأ اللعب ▶</string>
+    <string name="how_to_play">كيف ألعب؟</string>
+    <string name="best_score">أفضل نتيجة: %1$d</string>
+    <string name="tagline">لعبة لا نهائية… طِر واجمع النجوم!</string>
+    <string name="how_text">• اضغط في أي مكان للقفز\n• اضغط مرتين لقفزة مزدوجة في الهواء!\n• اجمع النجوم ✨ — الذهبية الكبيرة = 50 نقطة\n• الماس 💎 يمنحك درعاً 🛡️ أو مغناطيساً 🧲\n• احذر الأشواك الحمراء 🔺\n• 5 نجوم متتالية = كومبو ×2 🔥\n• عوالم لا تنتهي: غروب، فضاء، قطبي، غابة… للأبد!</string>
+    <string name="back">رجوع</string>
+</resources>

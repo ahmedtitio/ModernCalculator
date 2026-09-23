@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- نجمة ذهبية كبيرة -->
+    <path android:fillColor="#FFD54F"
+        android:pathData="M54,22 L61,41 L81,41 L65,53 L71,73 L54,61 L37,73 L43,53 L27,41 L47,41 Z"/>
+    <!-- صاروخ صغير يدور حول النجمة -->
+    <path android:fillColor="#ECEFF1" android:pathData="M78,66 C84,70 87,77 86,84 L78,80 L74,84 C71,77 72,70 78,66 Z"/>
+    <path android:fillColor="#E53935" android:pathData="M78,66 C81,68 83,71 84,74 L76,72 Z"/>
+    <path android:fillColor="#FF9800" android:pathData="M74,84 L78,80 L76,88 Z"/>
+</vector>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- الصاروخ البطل 🚀 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp" android:height="120dp"
+    android:viewportWidth="120" android:viewportHeight="120">
+    <!-- الزعانف -->
+    <path android:fillColor="#D32F2F" android:pathData="M35,70 L20,95 L38,88 Z"/>
+    <path android:fillColor="#D32F2F" android:pathData="M85,70 L100,95 L82,88 Z"/>
+    <!-- جسم الصاروخ -->
+    <path android:fillColor="#ECEFF1" android:pathData="M60,8 C74,26 80,48 80,70 C80,84 72,94 60,94 C48,94 40,84 40,70 C40,48 46,26 60,8 Z"/>
+    <!-- الأنف الأحمر -->
+    <path android:fillColor="#E53935" android:pathData="M60,8 C67,17 71,27 74,37 L46,37 C49,27 53,17 60,8 Z"/>
+    <!-- النافذة -->
+    <path android:fillColor="#4FC3F7" android:pathData="M60,48 m-12,0 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0"/>
+    <path android:strokeColor="#0288D1" android:strokeWidth="4" android:fillColor="#00000000"
+        android:pathData="M60,48 m-12,0 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0"/>
+    <!-- خط أسفل الجسم -->
+    <path android:fillColor="#B0BEC5" android:pathData="M46,78 L74,78 L70,90 L50,90 Z"/>
+    <!-- فوهة المحرك -->
+    <path android:fillColor="#455A64" android:pathData="M52,90 L68,90 L64,98 L56,98 Z"/>
+</vector>
