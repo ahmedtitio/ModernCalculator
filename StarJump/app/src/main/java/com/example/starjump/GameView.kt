@@ -10,7 +10,10 @@ import android.graphics.RadialGradient
 import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -340,7 +343,17 @@ class GameView(context: Context) : SurfaceView(context), Runnable, SurfaceHolder
             saveBestScore(context, bestScore)
             showBanner("🏆 رقم قياسي جديد!")
         }
-        performHapticFeedback()
+        vibrateDevice()
+    }
+
+    private fun vibrateDevice() {
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator ?: return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(200)
+        }
     }
 
     // ═════════ الإدخال ═════════
@@ -625,7 +638,7 @@ class GameView(context: Context) : SurfaceView(context), Runnable, SurfaceHolder
     }
 
     private fun drawGameOver(canvas: Canvas, w: Float, h: Float) {
-        paint.color = 0xB0000000
+        paint.color = 0xB0000000.toInt()
         canvas.drawRect(-40f, -40f, w + 40f, h + 40f, paint)
 
         heartDrawable?.let {

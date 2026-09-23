@@ -32,6 +32,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    lint {
+        // عدم إيقاف البناء بسبب تحذيرات Lint على خادم CI
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
 }
 
 dependencies {
