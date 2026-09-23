@@ -39,9 +39,9 @@ workflows:
           ./gradlew clean assembleRelease bundleRelease --stacktrace
           
     artifacts:
-      - build/outputs/**/*.apk
-      - build/outputs/**/*.aab
-      - build/outputs/**/mapping.txt
+      - ModernCalculator/app/build/outputs/**/*.apk
+      - ModernCalculator/app/build/outputs/**/*.aab
+      - ModernCalculator/app/build/outputs/**/mapping.txt
     
     publishing:
       email:
