@@ -1,23 +1,11 @@
 ```
-# Build artifacts
-build/
+# Gradle
 .gradle/
-target/
+build/
+!gradle-wrapper.jar
 
 # Dependencies
-node_modules/
-vendor/
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
-.vscode/
-.idea/
-*.swp
-*.swo
+libs/
 
 # Logs
 *.log
@@ -26,8 +14,41 @@ vendor/
 .DS_Store
 Thumbs.db
 
-# Gradle
-gradle/
-.gradle/
-!gradlew
+# Temporary files
+*.tmp
+*.temp
+
+# IDE
+.idea/
+*.iml
+*.iws
+.vscode/
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Coverage
+.coverage
+coverage/
+htmlcov/
+
+# Python (if applicable)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage*
+nosetests.xml
+coverage.xml
+*.cover
+*.log
 ```

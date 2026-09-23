@@ -2,6 +2,7 @@ workflows:
   android-workflow:
     name: بناء تطبيق آلة حديثة
     max_build_duration: 30
+    working_directory: ModernCalculator
     environment:
       vars:
         MODULE_NAME: app
@@ -14,16 +15,15 @@ workflows:
           include: true
           source: true
     scripts:
-      - name: إصلاح وتوليد Gradle Wrapper
+      - name: إعداد Gradle Wrapper
         script: |
           #!/usr/bin/env bash
-          echo "جاري تنظيف ملفات Gradle التالفة..."
-          rm -rf gradle/wrapper/gradle-wrapper.jar
-          rm -f gradlew
+          echo "جاري التحقق من Gradle Wrapper..."
           
-          echo "جاري توليد Gradle Wrapper جديد..."
-          # استخدام gradle المثبت في النظام لتوليد الملفات الضرورية
-          gradle wrapper --gradle-version 8.0 --distribution-type bin
+          if [ ! -f "./gradlew" ]; then
+            echo "جاري توليد Gradle Wrapper جديد..."
+            gradle wrapper --gradle-version 8.0 --distribution-type bin
+          fi
           
           echo "منح صلاحيات التنفيذ..."
           chmod +x ./gradlew
@@ -36,14 +36,12 @@ workflows:
         script: |
           #!/usr/bin/env bash
           echo "بدء عملية البناء..."
-          ./gradlew clean
-          ./gradlew assembleRelease
-          ./gradlew bundleRelease
+          ./gradlew clean assembleRelease bundleRelease --stacktrace
           
     artifacts:
-      - $MODULE_NAME/build/outputs/**/*.apk
-      - $MODULE_NAME/build/outputs/**/*.aab
-      - $MODULE_NAME/build/outputs/**/mapping.txt
+      - build/outputs/**/*.apk
+      - build/outputs/**/*.aab
+      - build/outputs/**/mapping.txt
     
     publishing:
       email:
