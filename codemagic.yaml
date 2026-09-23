@@ -9,15 +9,22 @@ workflows:
     triggering:
       events:
         - push
-        - tag
       branch_patterns:
         - pattern: 'main'
           include: true
           source: true
     scripts:
-      - name: إعداد Gradle
+      - name: تثبيت وتجهيز Gradle Wrapper
         script: |
+          # إذا لم يوجد ملف gradlew، نقوم بتنزيله وتوليده
+          if [ ! -f ./gradlew ]; then
+            echo "تحميل Gradle Wrapper..."
+            wget -q https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
+            wget -q https://raw.githubusercontent.com/gradle/gradle/master/gradlew -O gradlew
+            chmod +x gradlew
+          fi
           chmod +x ./gradlew
+          
       - name: بناء APK و AAB
         script: |
           ./gradlew clean
@@ -26,3 +33,4 @@ workflows:
     artifacts:
       - $MODULE_NAME/build/outputs/**/*.apk
       - $MODULE_NAME/build/outputs/**/*.aab
+      - $MODULE_NAME/build/outputs/**/*.txt
